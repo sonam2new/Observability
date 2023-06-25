@@ -44,4 +44,5 @@ To set up project locally, follow these steps:
 
 ### Steps
 
-1. Clone the repository to your local machine using following command: 
+1. Clone the repository to your local machine using following command: *git clone https://github.com/sonam2new/Observability.git*
+2. Navigate to project repository.
