@@ -42,3 +42,6 @@ To set up project locally, follow these steps:
     - Login as DB admin - *sudo su - postgres*
     - Database 'observatory_metrics' is already created - *psql -d observatory_metrics -U user*
 
+### Steps
+
+1. Clone the repository to your local machine using following command: 
