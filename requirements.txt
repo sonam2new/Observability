@@ -1,0 +1,6 @@
+psycopg2
+elasticsearch
+pandas
+getpass
+passlib
+time
