@@ -35,4 +35,3 @@ This project aims to evaluate different open-source database options to assess t
             - http.port`: By default, Elasticsearch runs on port 9200.
             - cluster.name`: Name Elasticsearch cluster. By default, it’s called “elasticsearch”.
         - Enable and Start Elasticsearch - *sudo systemctl enable elasticsearch* and *sudo systemctl start elasticsearch*
-
