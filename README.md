@@ -34,4 +34,4 @@ To set up project locally, follow these steps:
         - network.host`: Set it to the IP address of server.
         - http.port`: By default, Elasticsearch runs on port 9200.
         - cluster.name`: Name Elasticsearch cluster. By default, it’s called “elasticsearch”.
-  - Enable and Start Elasticsearch - *sudo systemctl enable elasticsearch* and *sudo systemctl start elasticsearch*
+- Enable and Start Elasticsearch - *sudo systemctl enable elasticsearch* and *sudo systemctl start elasticsearch*
