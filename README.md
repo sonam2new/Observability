@@ -12,6 +12,7 @@ This project aims to evaluate different open-source database options to assess t
 
 ## Installation
 
+### Pre-requisites
 To set up project locally, follow these steps:
 
 - Python 3.11.3: Make sure Python 3.11.3 installed. Install it from CLI
@@ -34,4 +35,10 @@ To set up project locally, follow these steps:
         - network.host`: Set it to the IP address of server.
         - http.port`: By default, Elasticsearch runs on port 9200.
         - cluster.name`: Name Elasticsearch cluster. By default, it’s called “elasticsearch”.
-- Enable and Start Elasticsearch - *sudo systemctl enable elasticsearch* and *sudo systemctl start elasticsearch*
+  - Enable and Start Elasticsearch - *sudo systemctl enable elasticsearch* and *sudo systemctl start elasticsearch*
+- PostgreSQL: Install and set PostgreSQL on local machine - *sudo dnf install postgresql postgresql-server*
+    - Initialize PG Cluser - *sudo postgresql-setup --initdb --unit postgresql*
+    - Start cluster - *sudo systemctl start postgresql*
+    - Login as DB admin - *sudo su - postgres*
+    - Database 'observatory_metrics' is already created - *psql -d observatory_metrics -U user*
+
