@@ -56,8 +56,41 @@ The metrics data used in this project was obtained from https://urbanobservatory
 
 Several experiments were conducted on the metrics data to explore different aspects of performance. Please see experiments in detail and their objective:
 
-### Experiment 1: Measure the execution time between Elasticsearch and PostgreSQL.
+### Experiment 1: Compare the execution time between Elasticsearch and PostgreSQL
 
 Run a query in both Elasticsearch and PostgreSQL with a particular sensor name, range of timestamp, and values, ordered by timestamp, to help Red Hat decide which database is suitable and taking less execution time to fetch the expected result.
 
-### Experiment 2: 
+### Experiment 2: Indexing on PostgreSQL
+
+Create an index on the PostgreSQL database and run a query to fetch all the associated timestamp and value for a particular sensor name using index.
+Measure the execution time and find size on disk. 
+
+### Experiment 3: Indexing on Elasticsearch
+
+Run a query to fetch all the associated timestamp and value for a particular sensor name using index. Measure the execution time and find size on disk.
+Red Hat can advise their customers on leveraging Elasticsearch's indexing capabilities.
+
+### Experiment 4: Query Performance without Indexing
+
+Perform queries without creating an index and compare the execution time with and without indexing. Measure the size on disk.
+Red Hat can highlight the impact of indexing on query performance.
+
+### Experiment 6: Aggregation Queries
+
+Perform aggregation queries on both PostgreSQL and Elasticsearch to compute statistical summaries (e.g., average, minimum, maximum, count of Value) for a specific sensor.
+
+### Experiment 7: Full Text Search in Elasticsearch
+
+Perform a full-text search query in Elasticsearch to evaluate search accuracy. Red Hat can demonstrate the search capabilities of Elasticsearch.
+
+### Experiment 8: Time-Based Queries on Elasticsearch
+
+Run a query to calculate average Value monthly for a particular sensor name in a given timestamp range. Handle time-based queries efficiently for real-time monitoring, historical analysis, and trend identification. Measure execution time and disk space.
+Red Hat, as a provider of Elasticsearch, can showcase the benefits of Elasticsearch, including time-based partitioning.
+
+### Experiment 8: Time-Based Queries on PostgreSQL
+
+Run a query to calculate average Value monthly for a particular sensor name in a given timestamp range. Measure execution time and disk space.
+
+## Contributing
+Contributions are welcome! If you find any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request.
