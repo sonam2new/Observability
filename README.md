@@ -45,4 +45,19 @@ To set up project locally, follow these steps:
 ### Steps
 
 1. Clone the repository to your local machine using following command: *git clone https://github.com/sonam2new/Observability.git*
-2. Navigate to project repository.
+2. Install the required dependencies: *pip install -r requirements.txt*
+3. Make sure both Elasticsearch and PostgreSQL server are up and running.
+
+## Data
+
+The metrics data used in this project was obtained from https://urbanobservatory.ac.uk/.
+
+## Experiments
+
+Several experiments were conducted on the metrics data to explore different aspects of performance. Please see experiments in detail and their objective:
+
+### Experiment 1: Measure the execution time between Elasticsearch and PostgreSQL.
+
+Run a query in both Elasticsearch and PostgreSQL with a particular sensor name, range of timestamp, and values, ordered by timestamp, to help Red Hat decide which database is suitable and taking less execution time to fetch the expected result.
+
+### Experiment 2: 
