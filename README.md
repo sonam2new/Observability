@@ -88,7 +88,7 @@ Perform a full-text search query in Elasticsearch to evaluate search accuracy. R
 Run a query to calculate average Value monthly for a particular sensor name in a given timestamp range. Handle time-based queries efficiently for real-time monitoring, historical analysis, and trend identification. Measure execution time and disk space.
 Red Hat, as a provider of Elasticsearch, can showcase the benefits of Elasticsearch, including time-based partitioning.
 
-### Experiment 8: Time-Based Queries on PostgreSQL
+### Experiment 9: Time-Based Queries on PostgreSQL
 
 Run a query to calculate average Value monthly for a particular sensor name in a given timestamp range. Measure execution time and disk space.
 
