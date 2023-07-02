@@ -40,7 +40,10 @@ To set up project locally, follow these steps:
     - Initialize PG Cluser - *sudo postgresql-setup --initdb --unit postgresql*
     - Start cluster - *sudo systemctl start postgresql*
     - Login as DB admin - *sudo su - postgres*
-    - Database 'observatory_metrics' is already created - *psql -d observatory_metrics -U user*
+    - Run command - *createdb observatory_metrics --owner username*
+    - Restart the server - *sudo systemctl restart postgresql*
+    - Run command- *psql -d observatory_metrics -U user*
+    - Create the table by running python script **Metrics_Table_Create_PG.py**
 
 ### Steps
 
@@ -51,6 +54,8 @@ To set up project locally, follow these steps:
 ## Data
 
 The metrics data used in this project was obtained from https://urbanobservatory.ac.uk/.
+Raw data of year 2021 and 2022 considered for experiments.
+Before starting for below experiments, ingest all the data into both Elasticsearch and PostgreSQL DB using the python script **Ingest_Metric_EL.py** and **Ingest_Metric_PostgreSQL.py** respectively.
 
 ## Experiments
 
@@ -59,38 +64,55 @@ Several experiments were conducted on the metrics data to explore different aspe
 ### Experiment 1: Compare the execution time between Elasticsearch and PostgreSQL
 
 Run a query in both Elasticsearch and PostgreSQL with a particular sensor name, range of timestamp, and values, ordered by timestamp, to help Red Hat decide which database is suitable and taking less execution time to fetch the expected result.
+To perform this experiment, run python file **ELS_PG_UseCase1.py**.
+Output: Results returned by query and Execution time taken by Elasticsearch and PostgreSQL DB.
 
 ### Experiment 2: Indexing on PostgreSQL
 
 Create an index on the PostgreSQL database and run a query to fetch all the associated timestamp and value for a particular sensor name using index.
 Measure the execution time and find size on disk. 
+To perform this experiment, run python file **UseCase2_Index_PG.py**.
+Output: Results returned by query and measure execution time taken by PostgreSQL DB. Also, verify size of disk used.
 
 ### Experiment 3: Indexing on Elasticsearch
 
 Run a query to fetch all the associated timestamp and value for a particular sensor name using index. Measure the execution time and find size on disk.
 Red Hat can advise their customers on leveraging Elasticsearch's indexing capabilities.
+To perform this experiment, run python file **UseCase2_Index_ELS.py**.
+Output: Results returned by query and measure execution time taken by Elasticsearch DB. Also, verify size of disk used.
 
 ### Experiment 4: Query Performance without Indexing
 
 Perform queries without creating an index and compare the execution time with and without indexing. Measure the size on disk.
 Red Hat can highlight the impact of indexing on query performance.
+To perform this experiment, run python file **UseCase4_WithoutIndex.py**.
+Output: Results returned by query and measure execution time taken by PostgreSQL DB. Also, verify size of disk used. compare the execution time with Experiment 2.
 
 ### Experiment 6: Aggregation Queries
 
 Perform aggregation queries on both PostgreSQL and Elasticsearch to compute statistical summaries (e.g., average, minimum, maximum, count of Value) for a specific sensor.
+To perform this experiment, run python file **Aggregation_ELS.py** and **Aggregation_PG.py**.
+Output: Results returned by query and measure & compare the execution time taken by Elasticsearch and PostgreSQL DB.
 
 ### Experiment 7: Full Text Search in Elasticsearch
 
 Perform a full-text search query in Elasticsearch to evaluate search accuracy. Red Hat can demonstrate the search capabilities of Elasticsearch.
+To perform this experiment, run python file **FullText_ELS.py**.
+Output: Results returned by query and measure execution time taken by Elasticsearch DB. Also, verify size of disk used.
 
 ### Experiment 8: Time-Based Queries on Elasticsearch
 
 Run a query to calculate average Value monthly for a particular sensor name in a given timestamp range. Handle time-based queries efficiently for real-time monitoring, historical analysis, and trend identification. Measure execution time and disk space.
 Red Hat, as a provider of Elasticsearch, can showcase the benefits of Elasticsearch, including time-based partitioning.
+To perform this experiment, run python file **Timebased.py**.
+Output: Results returned by query and measure & compare the execution time taken by Elasticsearch and PostgreSQL DB.
 
 ### Experiment 9: Time-Based Queries on PostgreSQL
 
 Run a query to calculate average Value monthly for a particular sensor name in a given timestamp range. Measure execution time and disk space.
+To perform this experiment, run python file **Timebased.py**.
+Output: Results returned by query and measure & compare the execution time taken by Elasticsearch and PostgreSQL DB.
+
 
 ## Contributing
 Contributions are welcome! If you find any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request.
