@@ -88,26 +88,26 @@ Red Hat can highlight the impact of indexing on query performance.
 To perform this experiment, run python file **UseCase4_WithoutIndex.py**.
 Output: Results returned by query and measure execution time taken by PostgreSQL DB. Also, verify size of disk used. compare the execution time with Experiment 2.
 
-### Experiment 6: Aggregation Queries
+### Experiment 5: Aggregation Queries
 
 Perform aggregation queries on both PostgreSQL and Elasticsearch to compute statistical summaries (e.g., average, minimum, maximum, count of Value) for a specific sensor.
 To perform this experiment, run python file **Aggregation_ELS.py** and **Aggregation_PG.py**.
 Output: Results returned by query and measure & compare the execution time taken by Elasticsearch and PostgreSQL DB.
 
-### Experiment 7: Full Text Search in Elasticsearch
+### Experiment 6: Full Text Search in Elasticsearch
 
 Perform a full-text search query in Elasticsearch to evaluate search accuracy. Red Hat can demonstrate the search capabilities of Elasticsearch.
 To perform this experiment, run python file **FullText_ELS.py**.
 Output: Results returned by query and measure execution time taken by Elasticsearch DB. Also, verify size of disk used.
 
-### Experiment 8: Time-Based Queries on Elasticsearch
+### Experiment 7: Time-Based Queries on Elasticsearch
 
 Run a query to calculate average Value monthly for a particular sensor name in a given timestamp range. Handle time-based queries efficiently for real-time monitoring, historical analysis, and trend identification. Measure execution time and disk space.
 Red Hat, as a provider of Elasticsearch, can showcase the benefits of Elasticsearch, including time-based partitioning.
 To perform this experiment, run python file **Timebased.py**.
 Output: Results returned by query and measure & compare the execution time taken by Elasticsearch and PostgreSQL DB.
 
-### Experiment 9: Time-Based Queries on PostgreSQL
+### Experiment 8: Time-Based Queries on PostgreSQL
 
 Run a query to calculate average Value monthly for a particular sensor name in a given timestamp range. Measure execution time and disk space.
 To perform this experiment, run python file **Timebased.py**.
