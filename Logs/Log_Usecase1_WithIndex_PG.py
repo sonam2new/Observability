@@ -53,8 +53,8 @@ column_name = [desc[0] for desc in cursor.description]
 logs_df = pd.DataFrame(results, columns=column_name)
 logs_df['file_name'] = logs_df['file_name'].apply(lambda x: os.path.basename(x))
 print("Retrieved logs:")
-print(logs_df)
+#print(logs_df)
 
-#print(execution_plan)
+print(execution_plan)
 # Print the results as DataFrames
 print("\nExecution time:", execution_time, "seconds")

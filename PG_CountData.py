@@ -10,28 +10,28 @@ password = getpass.getpass("Enter password")
 conn = psycopg2.connect(
     host='localhost',
     port='5432',
-    database='observatory_metrics',
+    database='logs_db',
     user=username,
     password=sha256_crypt.hash(password)
 )
 
 # Define the sensor name
-sensor_name = 'PER_EMLFLOOD_UO-SUNDERLANDFS'
+#sensor_name = 'PER_EMLFLOOD_UO-SUNDERLANDFS'
 
 # Create a cursor object
 cursor = conn.cursor()
 
 # Define the query to count the documents
-query = "SELECT COUNT(*) FROM urban_sensors WHERE sensor_name = %s"
+query = "SELECT COUNT(*) FROM parsed_logs"
 
 # Execute the query
-cursor.execute(query, (sensor_name,))
+cursor.execute(query)
 
 # Fetch the count of documents
 count = cursor.fetchone()[0]
 
 # Print the count
-print("Count of documents matching sensor name '{}': {}".format(sensor_name, count))
+print("Count of documents matching sensor name '{}'".format(count))
 
 # Close the cursor and connection
 cursor.close()

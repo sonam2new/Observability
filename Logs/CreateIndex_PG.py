@@ -1,10 +1,4 @@
-import glob
-import re
-import json
-import time
-from datetime import datetime
 import psycopg2
-from psycopg2.extras import execute_values
 import getpass
 from passlib.hash import sha256_crypt
 
@@ -26,8 +20,8 @@ cursor = conn.cursor()
 table_name = "parsed_logs"
 
 # Create an index on the log_source column
-index_name = "index_timestamp"
-column_name = "timestamp"
+index_name = "index_severity"
+column_name = "severity"
 cursor.execute(f"CREATE INDEX {index_name} ON {table_name} ({column_name})")
 
 # Check if the index is created successfully

@@ -14,11 +14,10 @@ mapping = {
     "mappings": {
         "properties": {
             "timestamp": {"type": "date", "format": "yyyy-MM-dd HH:mm:ss,SSS"},
-            "severity": {"type": "keyword"},
+            "level": {"type": "keyword"},
             "log_source": {"type": "keyword"},
             "message": {"type": "text"},
             "error": {"type": "boolean"},
-            "startup_message": {"type": "text"},
             "file_name": {"type": "keyword"}  # New field for storing the log file name
         }
     }
@@ -26,6 +25,7 @@ mapping = {
 
 # Create a new index with explicit mapping
 index_name = "parsed_logs"  # Choose a new index name
+
 if es.indices.exists(index=index_name):
     print("Index already exists. Please choose a different index name.")
     exit(1)
