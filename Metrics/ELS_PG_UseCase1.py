@@ -9,6 +9,7 @@ from passlib.hash import sha256_crypt
 # Connect to Elasticsearch
 es = Elasticsearch([{"host": "localhost", "port": 9200, "scheme": "http"}])
 index_name = "observatory_data_v2"
+
 username = input("Enter username")
 password = getpass.getpass("Enter password")
 
@@ -25,6 +26,8 @@ conn = psycopg2.connect(
 sensor_name = "PER_EMLFLOOD_UO-SUNDERLANDFS"
 start_timestamp = "2021-01-01 00:00:00"
 end_timestamp = "2022-01-01 00:59:00"
+
+output_file = "../result.txt"
 
 # Elasticsearch Query
 es_query = {
@@ -63,7 +66,7 @@ while hits:
 
 # PostgreSQL Query
 pg_query = """
-    SELECT *
+    SELECT timestamp, value
     FROM urban_sensors
     WHERE "sensor_name" = %s
     AND "timestamp" BETWEEN %s AND %s
@@ -86,8 +89,8 @@ print("Elasticsearch Execution Time: {:.2f} seconds".format(execution_time_es))
 
 print("PostgreSQL Execution Time: {:.2f} seconds".format(execution_time_pg))
 for result in results_pg:
-    timestamp=result[3]
-    value=result[4]
+    timestamp=result[0]
+    value=result[1]
 
 #convert Elasticsearch results into Dataframe
 es_data = []
@@ -105,6 +108,16 @@ pg_df = pd.DataFrame(results_pg, columns=pg_results)
 print("\nElasticsearch Results:\n", es_df)
 print("\nPostgresql Results:\n", pg_df)
 
+with open(output_file, "a") as file:
+    file.write("Elasticsearch Execution Time: {:.2f} seconds\n".format(execution_time_es))
+
+    file.write("PostgreSQL Execution Time: {:.2f} seconds\n".format(execution_time_pg))
+
+    file.write("\nElasticsearch Results:\n")
+    file.write(str(es_df) + "\n")
+
+    file.write("\nPostgreSQL Results:\n")
+    file.write(str(pg_df) + "\n")
 
 # Close the connections
 cursor.close()
