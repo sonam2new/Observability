@@ -4,8 +4,10 @@ This project aims to evaluate different open-source database options to assess t
 
 ## Features
 
-- Data collection from urban observatory.
-- Data storage using Elasticsearch and PostgreSQL.
+- Metrics data collection from urban observatory.
+- System Logs collection from HDFS2.
+- Log Parsing and storage.
+- Data storage in Elasticsearch and PostgreSQL.
 - Data analysis.
 - Integration with Python.
 - Execution Time comparison between Elasticsearch and PostgreSQL queries
@@ -40,10 +42,17 @@ To set up project locally, follow these steps:
     - Initialize PG Cluser - *sudo postgresql-setup --initdb --unit postgresql*
     - Start cluster - *sudo systemctl start postgresql*
     - Login as DB admin - *sudo su - postgres*
+  # For Metrics:
     - Run command - *createdb observatory_metrics --owner username*
     - Restart the server - *sudo systemctl restart postgresql*
     - Run command- *psql -d observatory_metrics -U user*
-    - Create the table by running python script **Metrics_Table_Create_PG.py**
+    - Create the table for Metrics by running python script **Metrics_Table_Create_PG.py**
+  
+  # For Logs:
+    - Run command - *createdb logs_db --owner username*
+    - Restart the server - *sudo systemctl restart postgresql*
+    - Run command- *psql -d parsed_logs -U user*
+    - Create the table for Metrics by running python script **Logs_Table_Create_PG.py**
 
 ### Steps
 
@@ -55,7 +64,9 @@ To set up project locally, follow these steps:
 
 The metrics data used in this project was obtained from https://urbanobservatory.ac.uk/.
 Raw data of year 2021 and 2022 considered for experiments.
-Before starting for below experiments, ingest all the data into both Elasticsearch and PostgreSQL DB using the python script **Ingest_Metric_EL.py** and **Ingest_Metric_PostgreSQL.py** respectively.
+Before starting for below Metrics experiments, ingest all the data into both Elasticsearch and PostgreSQL DB using the python script **Ingest_Metric_ELS.py** and **Ingest_Metric_PostgreSQL.py** respectively.
+System Logs was obtained from https://zenodo.org/record/3227177 (HDFS2).
+Before starting for below Logs experiments,parsed and ingest logs into both Elasticsearch and PostgreSQL DB using the python script **ParsedLogs_ELS.py** and **ParsedLogs_PG.py** respectively.
 
 ## Experiments
 
