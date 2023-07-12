@@ -69,6 +69,8 @@ To set up project locally, follow these steps:
 3. Before starting for below Metrics experiments, ingest all the data into both Elasticsearch and PostgreSQL DB using the python script **Ingest_Metric_ELS.py** and **Ingest_Metric_PostgreSQL.py** respectively.
 4. System Logs was obtained from https://zenodo.org/record/3227177 (HDFS2).
 5. Before starting for below Logs experiments,parsed and ingest logs into both Elasticsearch and PostgreSQL DB using the python script **ParsedLogs_ELS.py** and **ParsedLogs_PG.py** respectively.
+Metric Data Count: 50,955,8221
+Log Data Count: 58,098,926, PostgreSQL size: 22 GB
 
 ## Experiments on Metrics
 
@@ -160,7 +162,7 @@ Output: Results returned by query and measure execution time taken by Elasticsea
 
 ### Experiment 5: Full Text Search - Identify Log Messages with Specific Keywords
 
-Perform a full-text search query in Elasticsearch and PostgreSQL to evaluate search accuracy. In PostgreSQL, tsvector Data Type and GIN Index are used which allows to perform advanced search operations, such as ranking results based on relevance.
+Perform a full-text search query in Elasticsearch and PostgreSQL to evaluate search accuracy. In PostgreSQL, tsvector Data Type and GIN Index are used which allows to perform advanced search operations, such as ranking results based on relevance, help Red Hat to compare the performance and benefits of two different approaches for searching log messages with specific keywords in PostgreSQL: using the ILIKE operator and utilizing the tsvector data type.
 To perform this experiment, run python file **Log_Usecase5_ELS.py**, **Log_Usecase5_LIKE_PG.py** and **Log_Usecase5_tsvector_PG.py***.
 Output: Results returned by query and measure & compare the execution time taken when ILIKE and tsvector being used in PostgreSQL DB.
 
