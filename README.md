@@ -140,52 +140,33 @@ Output: Results returned by query and Execution time taken by Elasticsearch and 
 
 ### Experiment 2: Count the Number of Log Entries for Each Log Source
 
-Create an index on the PostgreSQL database and run a query to fetch all the associated timestamp and value for a particular sensor name using index.
-Measure the execution time and find size on disk. 
-To perform this experiment, run python file **UseCase2_Index_PG.py**.
-Output: Results returned by query and measure execution time taken by PostgreSQL DB. Also, verify size of disk used.
+Run a query to fetch all the Log source and associated log entries count for each source and arranged them in descending order, to help Red Hat for log analysis efforts, and address issues in high-impact log sources. It helps in identifying the most active log sources and highlights potential areas that require attention.
+To perform this experiment, run python file **Log_Usecase2_ELS.py** and **Log_Usecase2_PG.py**.
+Output: Results returned by query and measure execution time taken by Elasticsearch and PostgreSQL DB.
 
-### Experiment 3: Indexing on Elasticsearch
+### Experiment 3: Calculate the Average Log Line Count per Day for Logs with Severity "ERROR"
 
-Run a query to fetch all the associated timestamp and value for a particular sensor name using index. Measure the execution time and find size on disk.
-Red Hat can advise their customers on leveraging Elasticsearch's indexing capabilities.
-To perform this experiment, run python file **UseCase2_Index_ELS.py**.
-Output: Results returned by query and measure execution time taken by Elasticsearch DB. Also, verify size of disk used.
+Run a query to find average of log lines generated every day with a severity 'error', to help Red Hat to analyze the severity "ERROR" logs and calculate the average log line count per day. It provides visibility into the volume and trends of error logs, identification of patterns, and quicker response to critical issues.
+- Elasticsearch: Run the script **Log_Usecase3_ELS.py** to fetch results from elasticsearch DB.
+- PostgreSQL With Index: Firstly create index on severity column using script **CreateIndex_PG.py**, then perform query to fetch quicker results using script **Log_Usecas31_WithIndex_PG.py**.
+- PostgreSQL Without Index: Drop the index using the script **DeleteIndex.py**, then perform query to fetch result and compare execution time witn index script.
+Output: Results returned by query and Execution time taken by Elasticsearch and PostgreSQL DB with & without using indexing.
 
-### Experiment 4: Query Performance without Indexing
+### Experiment 4: Find the Top 5 Log Sources with the Highest Count of Log Entries between a Specific Time Range
 
-Perform queries without creating an index and compare the execution time with and without indexing. Measure the size on disk.
-Red Hat can highlight the impact of indexing on query performance.
-To perform this experiment, run python file **UseCase4_WithoutIndex.py**.
-Output: Results returned by query and measure execution time taken by PostgreSQL DB. Also, verify size of disk used. compare the execution time with Experiment 2.
+Run a query to fetch top 5 Log source which are generating maximum log entries, to help Red Hat identifying the log sources that generate the highest volume of log entries within a specific time range. It provides insights into the most critical log sources and enables analysis.
+To perform this experiment, run python file **Log_Usecase4_ELS.py** and **Log_Usecase4_PG.py**.
+Output: Results returned by query and measure execution time taken by Elasticsearch and PostgreSQL DB.
 
-### Experiment 5: Aggregation Queries
+### Experiment 5: Full Text Search - Identify Log Messages with Specific Keywords
 
-Perform aggregation queries on both PostgreSQL and Elasticsearch to compute statistical summaries (e.g., average, minimum, maximum, count of Value) for a specific sensor.
-To perform this experiment, run python file **Aggregation_ELS.py** and **Aggregation_PG.py**.
-Output: Results returned by query and measure & compare the execution time taken by Elasticsearch and PostgreSQL DB.
+Perform a full-text search query in Elasticsearch and PostgreSQL to evaluate search accuracy. In PostgreSQL, tsvector Data Type and GIN Index are used which allows to perform advanced search operations, such as ranking results based on relevance.
+To perform this experiment, run python file **Log_Usecase5_ELS.py**, **Log_Usecase5_LIKE_PG.py** and **Log_Usecase5_tsvector_PG.py***.
+Output: Results returned by query and measure & compare the execution time taken when ILIKE and tsvector being used in PostgreSQL DB.
 
-### Experiment 6: Full Text Search in Elasticsearch
-
-Perform a full-text search query in Elasticsearch to evaluate search accuracy. Red Hat can demonstrate the search capabilities of Elasticsearch.
-To perform this experiment, run python file **FullText_ELS.py**.
-Output: Results returned by query and measure execution time taken by Elasticsearch DB. Also, verify size of disk used.
-
-### Experiment 7: Time-Based Queries on Elasticsearch
-
-Run a query to calculate average Value monthly for a particular sensor name in a given timestamp range. Handle time-based queries efficiently for real-time monitoring, historical analysis, and trend identification. Measure execution time and disk space.
-Red Hat, as a provider of Elasticsearch, can showcase the benefits of Elasticsearch, including time-based partitioning.
-To perform this experiment, run python file **Timebased.py**.
-Output: Results returned by query and measure & compare the execution time taken by Elasticsearch and PostgreSQL DB.
-
-### Experiment 8: Time-Based Queries on PostgreSQL
-
-Run a query to calculate average Value monthly for a particular sensor name in a given timestamp range. Measure execution time and disk space.
-To perform this experiment, run python file **Timebased.py**.
-Output: Results returned by query and measure & compare the execution time taken by Elasticsearch and PostgreSQL DB.
 
 ## Results
-This project has been extensively tested on a range of log files and has shown excellent performance and accuracy in parsing log data. The extracted log fields provide valuable insights into the log entries and enable efficient log analysis and troubleshooting.
+This project has been extensively tested on a range of metric data and log files and has shown excellent performance and accuracy in parsing log data. The extracted log fields provide valuable insights into the log entries and enable efficient log analysis and troubleshooting.
 
 ## Contributing
 Contributions are welcome! If you find any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request.
