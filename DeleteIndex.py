@@ -19,7 +19,10 @@ conn.autocommit = True
 cursor = conn.cursor()
 
 # Delete index
-index_name = "index_log_source"
+#index_name = "index_log_source"
+#index_name = "index_severity"
+index_name = "index_timestamp"
+#index_name = "index_message_vector"
 query = f"DROP INDEX {index_name};"
 cursor.execute(query)
 

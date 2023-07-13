@@ -37,6 +37,13 @@ execution_time_pg = (end_time - start_time).total_seconds()
 # Process and print results
 results_pg = pd.DataFrame(results_pg, columns=["log_date", "log_line_count"])
 
+# Save results to a spreadsheet
+output_file = "Log_Usecase3_WithoutIndex_PG.xlsx"
+
+with pd.ExcelWriter(output_file) as writer:
+    results_pg.to_excel(writer, sheet_name="Logs", index=False)
+    pd.DataFrame({"Query": [pg_query], "Execution time (seconds)": [execution_time_pg]}).to_excel(writer, sheet_name="Metadata", index=False)
+
 print("PostgreSQL Results:")
 print(results_pg)
 print("Execution time (PostgreSQL):", execution_time_pg, "seconds")
