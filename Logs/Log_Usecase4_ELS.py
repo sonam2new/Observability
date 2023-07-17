@@ -42,6 +42,17 @@ response = es.search(index=index_name, body=es_query)
 end_time = pd.Timestamp.now()
 execution_time_es = (end_time - start_time).total_seconds()
 
+metadata_df = pd.DataFrame({"Query": [es_query], "Execution time (seconds)": [execution_time_es]})
+
+# Save results to a spreadsheet
+output_file = "Log_Output.xlsx"
+metadata = pd.read_excel(output_file, sheet_name="Metadata")
+
+metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
+
+with pd.ExcelWriter(output_file) as writer:
+    metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
+
 # Process and print results
 buckets = response["aggregations"]["top_log_sources"]["buckets"]
 results_es = pd.DataFrame([

@@ -4,6 +4,7 @@ from datetime import datetime
 import getpass
 from passlib.hash import sha256_crypt
 import os
+from openpyxl import load_workbook
 
 username = input("Enter username")
 password = getpass.getpass("Enter password")
@@ -47,14 +48,25 @@ results = cursor.fetchall()
 end = datetime.now()
 execution_time = (end - start).total_seconds()
 
+metadata_df = pd.DataFrame({"Query": [query], "Execution time (seconds)": [execution_time]})
+
+# Save results to a spreadsheet
+output_file = "Log_Output.xlsx"
+metadata = pd.read_excel(output_file, sheet_name="Metadata")
+
+metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
+with pd.ExcelWriter(output_file) as writer:
+    metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
+
 # Get column names
 column_name = [desc[0] for desc in cursor.description]
 
 logs_df = pd.DataFrame(results, columns=column_name)
 logs_df['file_name'] = logs_df['file_name'].apply(lambda x: os.path.basename(x))
 print("Retrieved logs:")
-#print(logs_df)
+print(logs_df)
 
-print(execution_plan)
+
+#print(execution_plan)
 # Print the results as DataFrames
 print("\nExecution time:", execution_time, "seconds")

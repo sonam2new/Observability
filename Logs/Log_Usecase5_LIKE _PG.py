@@ -23,7 +23,7 @@ pg_query = """
     SELECT timestamp, severity, message,file_name
     FROM parsed_logs
     WHERE message ILIKE '%error%' OR message ILIKE '%exception%'
-    LIMIT 100;
+    LIMIT 10000;
 """
 
 # Measure execution time
@@ -33,9 +33,21 @@ results_pg = cursor.fetchall()
 end_time = pd.Timestamp.now()
 execution_time_pg = (end_time - start_time).total_seconds()
 
+metadata_df = pd.DataFrame({"Query": [pg_query], "Execution time (seconds)": [execution_time_pg]})
+
+# Save results to a spreadsheet
+output_file = "Log_Output.xlsx"
+metadata = pd.read_excel(output_file, sheet_name="Metadata")
+
+metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
+
+with pd.ExcelWriter(output_file) as writer:
+    metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
+
 # Process and print results
 results_pg = pd.DataFrame(results_pg, columns=["timestamp", "severity", "message", "file_name"])
 results_pg['file_name'] = results_pg['file_name'].apply(lambda x: os.path.basename(x))
+
 
 print("PostgreSQL Results:")
 print(results_pg)

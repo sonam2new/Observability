@@ -34,6 +34,16 @@ results_pg = cursor.fetchall()
 end_time = datetime.now()
 execution_time_pg = (end_time - start_time).total_seconds()
 
+metadata_df = pd.DataFrame({"Query": [pg_query], "Execution time (seconds)": [execution_time_pg]})
+
+# Save results to a spreadsheet
+output_file = "Log_Output.xlsx"
+metadata = pd.read_excel(output_file, sheet_name="Metadata")
+
+metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
+with pd.ExcelWriter(output_file) as writer:
+    metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
+
 # Process and print results
 results_pg = pd.DataFrame(results_pg, columns=["log_source", "log_count"])
 
