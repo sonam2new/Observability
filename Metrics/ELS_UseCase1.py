@@ -27,7 +27,6 @@ sensor_name = "PER_EMLFLOOD_UO-SUNDERLANDFS"
 start_timestamp = "2021-01-01 00:00:00"
 end_timestamp = "2022-01-01 00:59:00"
 
-output_file = "../result.txt"
 
 # Elasticsearch Query
 es_query = {
@@ -104,20 +103,17 @@ es_df = pd.DataFrame(es_data, columns=["Timestamp", "Value"])
 pg_results = [desc[0] for desc in cursor.description]
 pg_df = pd.DataFrame(results_pg, columns=pg_results)
 
+# Save results to a spreadsheet
+output_file = "Met_Output.xlsx"
+
+with pd.ExcelWriter(output_file) as writer:
+    es_df.to_excel(writer, sheet_name="Aggregation_ELS", index=False)
+    pd.DataFrame({"Query": [es_query], "Execution time (seconds)": [execution_time_es]}).to_excel(writer, sheet_name="Metadata", index=False)
+
 #Print dataframes
 print("\nElasticsearch Results:\n", es_df)
 print("\nPostgresql Results:\n", pg_df)
 
-with open(output_file, "a") as file:
-    file.write("Elasticsearch Execution Time: {:.2f} seconds\n".format(execution_time_es))
-
-    file.write("PostgreSQL Execution Time: {:.2f} seconds\n".format(execution_time_pg))
-
-    file.write("\nElasticsearch Results:\n")
-    file.write(str(es_df) + "\n")
-
-    file.write("\nPostgreSQL Results:\n")
-    file.write(str(pg_df) + "\n")
 
 # Close the connections
 cursor.close()
