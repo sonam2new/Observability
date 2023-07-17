@@ -7,7 +7,7 @@ es = Elasticsearch([{"host": "localhost", "port": 9200, "scheme": "http"}])
 # Define the index name
 index_name = "observatory_data_v2"
 
-sensor_name ="PER_EMLFLOOD_UO-WALLSENDFS"
+sensor_name ="PER_AIRMON_MESH1903150"
 
 start_time = time.time()
 
@@ -39,16 +39,21 @@ while True:
 
 execution_time = time.time() - start_time
 
+# Save results to a spreadsheet (same as before)
+output_file = "Metric_Output.xlsx"
+metadata_df = pd.DataFrame({"Query": [query], "Execution time (seconds)": [execution_time]})
+
+metadata = pd.read_excel(output_file, sheet_name="Metadata")
+metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
+with pd.ExcelWriter(output_file) as writer:
+    metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
+
 columns = ["Timestamp", "Value"]
 es_df = pd.DataFrame(data, columns=columns)
 
-# Calculate size on disk
-size_disk = es.cat.indices(index=index_name, format="json", bytes="b")[0]["store.size"]
-size_mb = int(size_disk) / (1024 * 1024)
 
 print("\nResults:")
 print(es_df.to_string(index=False, justify="left"))
 
-print("\nSize on Disk: {}".format(size_mb))
 print("Execution Time: {:.2f} seconds".format(execution_time))
 print("\nNumber of data returned: {}".format(len(data)))

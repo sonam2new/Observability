@@ -16,13 +16,10 @@ conn = psycopg2.connect(
     password=sha256_crypt.hash(password)
 )
 
-# Create an index on the sensor_name column
-index_query = "CREATE INDEX IF NOT EXISTS sensor_index ON urban_sensors(sensor_name)"
 cursor = conn.cursor()
-cursor.execute(index_query)
 
 # Define the query parameters
-sensor_name = "PER_EMLFLOOD_UO-WALLSENDFS"
+sensor_name = "PER_AIRMON_MESH1903150"
 
 #Measure execution time
 start_time = time.time()
@@ -35,17 +32,21 @@ results = cursor.fetchall()
 
 row_count = cursor.rowcount
 
-# Calculate the size on disk for the result
-size_query = "SELECT pg_size_pretty(pg_total_relation_size('sensor_index'))"
-cursor.execute(size_query)
-size_result = cursor.fetchone()
-size_on_disk = size_result[0]
-
 # Close the connections
 cursor.close()
 conn.close()
 
 execution_time = time.time() - start_time
+
+# Save results to a spreadsheet (same as before)
+output_file = "Metric_Output.xlsx"
+metadata_df = pd.DataFrame({"Query": [query], "Execution time (seconds)": [execution_time]})
+
+metadata = pd.read_excel(output_file, sheet_name="Metadata")
+metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
+with pd.ExcelWriter(output_file) as writer:
+    metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
+
 columns = ['Timestamp', 'Value']
 df = pd.DataFrame(results, columns=columns)
 
@@ -53,5 +54,4 @@ print("\nResults:")
 print(df.to_string(index=True, justify='left'))
 
 print("\nNumber of data: {}".format(row_count))
-print("Size on Disk: {}".format(size_on_disk))
 print("Execution Time: {:.2f} seconds".format(execution_time))
