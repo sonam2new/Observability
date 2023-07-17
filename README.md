@@ -69,8 +69,8 @@ To set up project locally, follow these steps:
 3. Before starting for below Metrics experiments, ingest all the data into both Elasticsearch and PostgreSQL DB using the python script **Ingest_Metric_ELS.py** and **Ingest_Metric_PostgreSQL.py** respectively.
 4. System Logs was obtained from https://zenodo.org/record/3227177 (HDFS2).
 5. Before starting for below Logs experiments,parsed and ingest logs into both Elasticsearch and PostgreSQL DB using the python script **ParsedLogs_ELS.py** and **ParsedLogs_PG.py** respectively.
-Metric Data Count: 50,955,8221
-Log Data Count: 58,098,926, PostgreSQL size: 22 GB
+Metric Data Count: 50,955,8221, Elasticsearch size on disk: 84.15 GB, PostgreSQL size on disk: 132.66 GB
+Log Data Count: 58,098,926, Elasticsearch size on disk: 5.24 GB, PostgreSQL size: 82.94 GB
 
 ## Experiments on Metrics
 
