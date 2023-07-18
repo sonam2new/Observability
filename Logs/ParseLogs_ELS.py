@@ -24,7 +24,7 @@ mapping = {
 }
 
 # Create a new index with explicit mapping
-index_name = "parsed_logs"  # Choose a new index name
+index_name = "parsed_logs"
 
 if es.indices.exists(index=index_name):
     print("Index already exists. Please choose a different index name.")
