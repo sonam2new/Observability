@@ -1,31 +1,15 @@
 import pandas as pd
-import psycopg2
 from elasticsearch import Elasticsearch
-import datetime
 import time
-import getpass
-from passlib.hash import sha256_crypt
 
 # Connect to Elasticsearch
 es = Elasticsearch([{"host": "localhost", "port": 9200, "scheme": "http"}])
 index_name = "observatory_data_v2"
 
-username = input("Enter username")
-password = getpass.getpass("Enter password")
-
-# Connect to PostgreSQL
-conn = psycopg2.connect(
-    host='localhost',
-    port='5432',
-    database='observatory_metrics',
-    user=username,
-    password=sha256_crypt.hash(password)
-)
-
 # Define the query parameters
-sensor_name = "PER_EMLFLOOD_UO-SUNDERLANDFS"
+sensor_name = "PER_ENVIRONMENT_008632_EA_TPRG"
 start_timestamp = "2021-01-01 00:00:00"
-end_timestamp = "2022-01-01 00:59:00"
+end_timestamp = "2022-09-01 00:59:00"
 
 
 # Elasticsearch Query
@@ -63,33 +47,24 @@ while hits:
 
     scroll_id = response["_scroll_id"]
 
-# PostgreSQL Query
-pg_query = """
-    SELECT timestamp, value
-    FROM urban_sensors
-    WHERE "sensor_name" = %s
-    AND "timestamp" BETWEEN %s AND %s
-"""
-
 # Measure execution time for Elasticsearch
 start_time = time.time()
 response = es.search(index=index_name, body=es_query)
 execution_time_es = time.time() - start_time
 
-# Measure execution time for PostgreSQL
-cursor = conn.cursor()
-start_time = time.time()
-cursor.execute(pg_query, (sensor_name, start_timestamp, end_timestamp))
-results_pg = cursor.fetchall()
-execution_time_pg = time.time() - start_time
+metadata_df = pd.DataFrame({"Query": [es_query], "Execution time (seconds)": [execution_time_es]})
+
+# Save results to a spreadsheet
+output_file = "Metric_Output.xlsx"
+metadata = pd.read_excel(output_file, sheet_name="Metadata")
+
+metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
+
+with pd.ExcelWriter(output_file) as writer:
+    metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
 
 # Print the results
 print("Elasticsearch Execution Time: {:.2f} seconds".format(execution_time_es))
-
-print("PostgreSQL Execution Time: {:.2f} seconds".format(execution_time_pg))
-for result in results_pg:
-    timestamp=result[0]
-    value=result[1]
 
 #convert Elasticsearch results into Dataframe
 es_data = []
@@ -99,22 +74,5 @@ for hit in data:
 
 es_df = pd.DataFrame(es_data, columns=["Timestamp", "Value"])
 
-#convert Postgresql results into Dataframe
-pg_results = [desc[0] for desc in cursor.description]
-pg_df = pd.DataFrame(results_pg, columns=pg_results)
-
-# Save results to a spreadsheet
-output_file = "Met_Output.xlsx"
-
-with pd.ExcelWriter(output_file) as writer:
-    es_df.to_excel(writer, sheet_name="Aggregation_ELS", index=False)
-    pd.DataFrame({"Query": [es_query], "Execution time (seconds)": [execution_time_es]}).to_excel(writer, sheet_name="Metadata", index=False)
-
 #Print dataframes
 print("\nElasticsearch Results:\n", es_df)
-print("\nPostgresql Results:\n", pg_df)
-
-
-# Close the connections
-cursor.close()
-conn.close()

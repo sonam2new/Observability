@@ -19,7 +19,7 @@ conn.autocommit = True
 cursor = conn.cursor()
 
 # Define the search query using ILIKE
-sensor_text = "%EML%FLOOD%UO%CHOP%"
+sensor_name = "%EML%FLOOD%"
 
 # Measure execution time
 start_time = time.time()
@@ -32,7 +32,7 @@ query = """
 """
 
 # Perform the ILIKE search query
-cursor.execute(query, (sensor_text, ))
+cursor.execute(query, (sensor_name, ))
 data = cursor.fetchall()
 
 # Calculate the count of timestamps
@@ -56,6 +56,6 @@ with pd.ExcelWriter(output_file) as writer:
 # Print the results (same as before)
 print("Results:")
 print(df.to_string(index=False, justify="left"))
-print("\nCount of timestamps associated with sensor '{}': {}".format(sensor_text, count))
+print("\nCount of timestamps associated with sensor '{}': {}".format(sensor_name, count))
 print("Execution Time: {:.2f} seconds".format(execution_time))
 

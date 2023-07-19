@@ -75,7 +75,16 @@ for hit in es_hits:
     es_data.append((sensor_name, key, month_average))
 
 # Calculate Elasticsearch execution time
-es_execution_time = time.time() - es_start_time
+execution_time_es = time.time() - es_start_time
+
+# Save results to a spreadsheet (same as before)
+output_file = "Metric_Output.xlsx"
+metadata_df = pd.DataFrame({"Query": [es_query], "Execution time (seconds)": [execution_time_es]})
+
+metadata = pd.read_excel(output_file, sheet_name="Metadata")
+metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
+with pd.ExcelWriter(output_file) as writer:
+    metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
 
 # Create a DataFrame
 es_columns = ["Sensor Name", "Month", "Average Value"]
@@ -88,7 +97,7 @@ print(df.to_string(index=False))
 
 
 # Elasticsearch Execution Time and Disk Space
-print("\nElasticsearch Execution Time: {:.2f} seconds".format(es_execution_time))
+print("\nElasticsearch Execution Time: {:.2f} seconds".format(execution_time_es))
 
 # --- PostgreSQL Query ---
 
@@ -108,7 +117,16 @@ pg_query = """
 pg_cursor.execute(pg_query, (sensor_name, start_time, end_time))
 pg_results = pg_cursor.fetchall()
 
-pg_execution_time = time.time() - pg_start_time
+execution_time_pg = time.time() - pg_start_time
+
+# Save results to a spreadsheet (same as before)
+output_file = "Metric_Output.xlsx"
+metadata_df = pd.DataFrame({"Query": [pg_query], "Execution time (seconds)": [execution_time_pg]})
+
+metadata = pd.read_excel(output_file, sheet_name="Metadata")
+metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
+with pd.ExcelWriter(output_file) as writer:
+    metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
 
 
 # PostgreSQL results
@@ -120,7 +138,7 @@ print(df_result)
 
 
 # PostgreSQL Execution Time and Disk Space
-print("\nPostgreSQL Execution Time: {:.2f} seconds".format(pg_execution_time))
+print("\nPostgreSQL Execution Time: {:.2f} seconds".format(execution_time_pg))
 
 # Close the cursor and connections
 pg_cursor.close()

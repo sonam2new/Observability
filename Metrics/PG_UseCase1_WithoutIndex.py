@@ -35,7 +35,7 @@ start_time = time.time()
 cursor.execute(pg_query, (sensor_name, start_timestamp, end_timestamp))
 results_pg = cursor.fetchall()
 execution_time_pg = time.time() - start_time
-
+"""
 # Save results to a spreadsheet (same as before)
 output_file = "Metric_Output.xlsx"
 metadata_df = pd.DataFrame({"Query": [pg_query], "Execution time (seconds)": [execution_time_pg]})
@@ -44,7 +44,7 @@ metadata = pd.read_excel(output_file, sheet_name="Metadata")
 metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
 with pd.ExcelWriter(output_file) as writer:
     metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
-
+"""
 
 print("PostgreSQL Execution Time: {:.2f} seconds".format(execution_time_pg))
 for result in results_pg:

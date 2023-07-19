@@ -45,6 +45,15 @@ response = es.search(index=index_name, body=aggregation_query, size=0)
 # Calculate execution time
 execution_time = time.time() - start_time
 
+metadata_df = pd.DataFrame({"Query": [aggregation_query], "Execution time (seconds)": [execution_time]})
+
+# Save results to a spreadsheet
+output_file = "Metric_Output.xlsx"
+
+
+with pd.ExcelWriter(output_file) as writer:
+    metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
+
 # Get the aggregation data
 data = response["aggregations"]["monthly_stats"]["buckets"]
 
@@ -76,6 +85,7 @@ data = {
     "Count": counts
 }
 df = pd.DataFrame(data)
+
 
 df = df.dropna()
 

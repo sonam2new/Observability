@@ -48,6 +48,17 @@ results = cursor.fetchall()
 # Calculate execution time
 execution_time = time.time() - start_time
 
+metadata_df = pd.DataFrame({"Query": [query], "Execution time (seconds)": [execution_time]})
+
+# Save results to a spreadsheet
+output_file = "Metric_Output.xlsx"
+metadata = pd.read_excel(output_file, sheet_name="Metadata")
+
+metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
+
+with pd.ExcelWriter(output_file) as writer:
+    metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
+
 # Create a DataFrame from the results
 columns = ["Month", "Average Value", "Minimum Value", "Maximum Value", "Count"]
 df = pd.DataFrame(results, columns=columns)
@@ -55,6 +66,7 @@ df["Sensor Name"] = sensor_name
 
 # Convert the month column to the desired format
 df["Month"] = df["Month"].dt.strftime("%Y-%m")
+
 
 # Print the DataFrame
 print(df)

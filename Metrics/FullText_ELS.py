@@ -9,8 +9,7 @@ es = Elasticsearch([{"host": "localhost", "port": 9200, "scheme": "http"}])
 # Define the index name
 index_name = "observatory_data_v2"
 
-# Define the search query
-sensor_text = "*EML*FLOOD*UO*CHOP*"
+sensor_text = "*EML*FLOOD*"
 
 # Measure execution time
 start_time = time.time()
@@ -22,7 +21,7 @@ query = {
             "Sensor Name": sensor_text
         }
     },
-    "size": 1000
+    "size": 10000
 }
 
 # Perform the search request
@@ -57,6 +56,18 @@ size_mb = size / (1024 * 1024)
 
 # Calculate execution time
 execution_time = time.time() - start_time
+"""
+metadata_df = pd.DataFrame({"Query": [query], "Execution time (seconds)": [execution_time]})
+
+# Save results to a spreadsheet
+output_file = "Metric_Output.xlsx"
+metadata = pd.read_excel(output_file, sheet_name="Metadata")
+
+metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
+
+with pd.ExcelWriter(output_file) as writer:
+    metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
+"""
 
 # Create a DataFrame from the results
 columns = ["Timestamp", "Value"]
@@ -68,5 +79,4 @@ print(df.to_string(index=False, justify="left"))
 
 
 print("\nCount of timestamps associated with sensor '{}': {}".format(sensor_text, count))
-print("Size on Disk: {:.2f} MB".format(size_mb))
 print("Execution Time: {:.2f} seconds".format(execution_time))
