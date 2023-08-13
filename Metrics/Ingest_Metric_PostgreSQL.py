@@ -65,7 +65,8 @@ for file in csv_files:
 
                 if len(values) == batch_size:
                     args_str = ','.join(cur.mogrify("(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", x).decode('utf-8') for x in values)
-                    query = "INSERT INTO urban_sensors (sensor_name, variable, units, timestamp, value, location, ground_height, sensor_height, broker, third_party, longitude, latitude, raw_Id) VALUES" + args_str
+                    query = "INSERT INTO urban_sensors (sensor_name, variable, units, timestamp, value, location, ground_height, sensor_height, broker, third_party, longitude, " \
+                            "latitude, raw_Id) VALUES" + args_str
                     cur.execute(query)
                     total_inserted +=len(values)
                     batch_count +=1

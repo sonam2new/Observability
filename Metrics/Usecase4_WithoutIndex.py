@@ -43,26 +43,3 @@ table_headers = ["Sensor","Timestamp", "Value"]
 formatted_result = tabulate.tabulate(results, headers=table_headers)
 print("Results:\n", formatted_result)
 print("Execution Time:", execution_time_postgres)
-
-
-
-def get_result_size():
-    query = """
-    SELECT pg_size_pretty(pg_total_relation_size((SELECT * FROM (
-    SELECT sensor_name, timestamp, value FROM urban_sensors WHERE sensor_name = %s) AS subquery
-    )))
-    """
-
-    try:
-        cursor = conn.cursor()
-        cursor.execute(query)
-        size = cursor.fetchone()[0]
-        cursor.close()
-        return size
-    except Exception as e:
-        print("Error getting table size:", e)
-        return None
-
-# Get the size of the table on disk
-result_size = get_result_size()
-print("Size is:", result_size)

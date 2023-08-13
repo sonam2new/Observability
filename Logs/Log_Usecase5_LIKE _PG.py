@@ -22,8 +22,7 @@ cursor = conn.cursor()
 pg_query = """
     SELECT timestamp, severity, message,file_name
     FROM parsed_logs
-    WHERE message ILIKE '%error%' OR message ILIKE '%exception%'
-    LIMIT 10000;
+    WHERE message ILIKE '%error%' OR message ILIKE '%exception%';
 """
 
 # Measure execution time

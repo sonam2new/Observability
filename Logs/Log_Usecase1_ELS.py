@@ -42,7 +42,7 @@ logs_df = pd.DataFrame(results)
 
 end = datetime.now()
 execution_time = (end - start).total_seconds()
-
+"""
 metadata_df = pd.DataFrame({"Query": [query], "Execution time (seconds)": [execution_time]})
 
 # Save results to a spreadsheet
@@ -53,7 +53,7 @@ metadata_df = pd.concat([metadata, metadata_df], ignore_index=True)
 
 with pd.ExcelWriter(output_file) as writer:
     metadata_df.to_excel(writer, sheet_name="Metadata", index=False)
-
+"""
 # Print the results as DataFrames
 print("Retrieved logs:")
 print(logs_df)

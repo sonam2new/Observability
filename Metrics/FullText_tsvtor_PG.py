@@ -18,29 +18,28 @@ conn = psycopg2.connect(
 conn.autocommit = True
 cursor = conn.cursor()
 
-"""
 # Add tsvector column
 alter_table_query = """
-    #ALTER TABLE urban_sensors
-    #ADD COLUMN sensor_name_vector tsvector;
+    ALTER TABLE urban_sensors
+    ADD COLUMN sensor_name_vector tsvector;
 """
 cursor.execute(alter_table_query)
 
 # Update sensor_name_vector column with tsvector values
 update_vector_query = """
-    #UPDATE urban_sensors
-    #SET sensor_name_vector = to_tsvector('english', sensor_name);
+    UPDATE urban_sensors
+    SET sensor_name_vector = to_tsvector('english', sensor_name);
 """
 cursor.execute(update_vector_query)
 
 # Create GIN index on sensor_name_vector column
 create_index_query = """
-    #CREATE INDEX index_sensor_name_vector
-    #ON urban_sensors
-    #USING gin(sensor_name_vector);
+    CREATE INDEX index_sensor_name_vector
+    ON urban_sensors
+    USING gin(sensor_name_vector);
 """
 cursor.execute(create_index_query)
-"""
+
 # Define the search query using tsvector
 sensor_name = "EML:* | FLOOD:*"
 
